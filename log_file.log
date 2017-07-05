@@ -1,0 +1,10 @@
+17:02:45,356 ERROR main TestMain:main:27 - что-то пошло не так
+2017-07-04 17:03:16 INFO  JDBCFactory:28 - connection to database created
+2017-07-04 17:03:16 ERROR TestMain:27 - что-то пошло не так
+2017-07-04 17:03:16 INFO  TestMain:28 - test
+2017-07-04 17:04:17 INFO  JDBCFactory:28 - connection to database created
+2017-07-04 17:04:17 ERROR TestMain:27 - что-то пошло не так
+2017-07-04 17:04:17 INFO  TestMain:28 - test
+2017-07-04 17:04:33 INFO  JDBCFactory:28 - connection to database created
+2017-07-04 17:04:33 ERROR TestMain:27 - хочу печеньку
+2017-07-04 17:04:33 INFO  TestMain:28 - test
