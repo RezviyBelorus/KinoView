@@ -16,9 +16,9 @@ public class LocalProperties {
     }
 
     private void load() {
-        String pathFile = "/Users/alexfomin/IdeaProjects/kinoview/src/main/resources/local.properties";
+        String path = LocalProperties.class.getClassLoader().getResource("local.properties").getPath();
 
-        try (FileInputStream fis = new FileInputStream(pathFile)){
+        try (FileInputStream fis = new FileInputStream(path)){
             properties = new Properties();
             properties.load(fis);
         } catch (FileNotFoundException e) {
@@ -27,7 +27,6 @@ public class LocalProperties {
             e.printStackTrace();
         }
     }
-
     public String get(String name) {
         return properties.getProperty(name);
     }

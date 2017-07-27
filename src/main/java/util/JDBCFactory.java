@@ -24,6 +24,8 @@ public class JDBCFactory {
 
             Connection connection = DriverManager.getConnection(properties.get(DB_URL), properties.get(DB_LOGIN),
                     properties.get(DB_PASS));
+            //todo: сделать
+//            connection.setAutoCommit(false);
 
             logger.info("connection to database created");
             return connection;

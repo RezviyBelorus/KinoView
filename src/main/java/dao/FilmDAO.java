@@ -27,8 +27,8 @@ public class FilmDAO extends AbstractDAO {
     private String SELECT_FILM_BY_FILM_NAME_QUERY = "SELECT film_id, film_name, release_year, quality_id," +
             "translation_id, length, rating, upload_date, status FROM films WHERE film_name = ?";
 
-    private String INSERT_INTO_FILMS_TO_GENRES = "INSERT INTO films_to_genres VALUES (?, ?)";
-    private String INSERT_INTO_FILMS_TO_COUNTRIES = "INSERT INTO films_to_countries VALUES (?, ?)";
+    private String INSERT_FILMS_TO_GENRES = "INSERT INTO films_to_genres VALUES (?, ?)";
+    private String INSERT_FILMS_TO_COUNTRIES = "INSERT INTO films_to_countries VALUES (?, ?)";
 
     private String UPDATE_STATUS_BY_FILM_NAME_QUERY = "UPDATE films SET status = ? WHERE film_name = ?";
 
@@ -37,23 +37,20 @@ public class FilmDAO extends AbstractDAO {
     public boolean save(Film film) {
         try (PreparedStatement prsFilm = connection.prepareStatement(SAVE_FILM_QUERY);) {
 
-            prsFilm.setString(1, film.getFilm_name());
-            prsFilm.setInt(2, film.getRelease_year());
+            prsFilm.setString(1, film.getName());
+            prsFilm.setInt(2, film.getReleaseYear());
             prsFilm.setInt(3, film.getQuality_id());
-            prsFilm.setInt(4, film.getTranslation_id());
+            prsFilm.setInt(4, film.getTranslationId());
             prsFilm.setString(5, film.getLength());
             prsFilm.setFloat(6, film.getRating());
-            prsFilm.setTimestamp(7, Timestamp.valueOf(film.getUpload_date()));
+            prsFilm.setTimestamp(7, Timestamp.valueOf(film.getUploadDate()));
             prsFilm.setInt(8, film.getStatus());
             prsFilm.executeUpdate();
-
-            saveGenres(film);
-            saveCountries(film);
 
             return true;
 
         } catch (SQLException e) {
-            logger.error("This film already exists" + film.getFilm_name());
+            logger.error("This film already exists" + film.getName());
             throw new IllegalRequestException("");
         }
     }
@@ -62,6 +59,7 @@ public class FilmDAO extends AbstractDAO {
         try (PreparedStatement prs = connection.prepareStatement(DELETE_BY_ID_QUARY)) {
             prs.setInt(1, id);
             prs.executeUpdate();
+
             return true;
         } catch (SQLException e) {
             logger.error("Film not found ID: " + id);
@@ -88,14 +86,14 @@ public class FilmDAO extends AbstractDAO {
             Film film = new Film();
 
             while (rs.next()) {
-                film.setFilm_id(rs.getInt(1));
-                film.setFilm_name(rs.getString(2));
-                film.setRelease_year(rs.getInt(3));
+                film.setId(rs.getInt(1));
+                film.setName(rs.getString(2));
+                film.setReleaseYear(rs.getInt(3));
                 film.setQuality_id(rs.getInt(4));
-                film.setTranslation_id(rs.getInt(5));
+                film.setTranslationId(rs.getInt(5));
                 film.setLength(rs.getString(6));
                 film.setRating(rs.getFloat(7));
-                film.setUpload_date(rs.getTimestamp(8).toLocalDateTime());
+                film.setUploadDate(rs.getTimestamp(8).toLocalDateTime());
                 film.setStatus(rs.getInt(9));
             }
             return film;
@@ -113,14 +111,14 @@ public class FilmDAO extends AbstractDAO {
             Film film = new Film();
 
             while (rs.next()) {
-                film.setFilm_id(rs.getInt(1));
-                film.setFilm_name(rs.getString(2));
-                film.setRelease_year(rs.getInt(3));
+                film.setId(rs.getInt(1));
+                film.setName(rs.getString(2));
+                film.setReleaseYear(rs.getInt(3));
                 film.setQuality_id(rs.getInt(4));
-                film.setTranslation_id(rs.getInt(5));
+                film.setTranslationId(rs.getInt(5));
                 film.setLength(rs.getString(6));
                 film.setRating(rs.getFloat(7));
-                film.setUpload_date(rs.getTimestamp(8).toLocalDateTime());
+                film.setUploadDate(rs.getTimestamp(8).toLocalDateTime());
                 film.setStatus(rs.getInt(9));
             }
             return film;
@@ -128,32 +126,6 @@ public class FilmDAO extends AbstractDAO {
             logger.error("Film not found: " + filmName);
             throw new IllegalRequestException("");
         }
-    }
-
-    private boolean saveGenres(Film film) {
-        for (int i = 0; i < film.getGenres_id().size(); i++) {
-            try (PreparedStatement prs = connection.prepareStatement(INSERT_INTO_FILMS_TO_GENRES)) {
-                prs.setInt(1, film.getFilm_id());
-                prs.setInt(2, film.getGenres_id().get(i));
-            } catch (SQLException e) {
-                logger.error("Cant save genre");
-                throw new IllegalRequestException("");
-            }
-        }
-        return true;
-    }
-
-    private boolean saveCountries(Film film) {
-        for (int i = 0; i < film.getGenres_id().size(); i++) {
-            try (PreparedStatement prs = connection.prepareStatement(INSERT_INTO_FILMS_TO_COUNTRIES)) {
-                prs.setInt(1, film.getFilm_id());
-                prs.setInt(2, film.getCountries_id().get(i));
-            } catch (SQLException e) {
-                logger.error("Cant save country");
-                throw new IllegalRequestException("");
-            }
-        }
-        return true;
     }
 
     public boolean setStatus(String filmName, int status){
@@ -168,15 +140,14 @@ public class FilmDAO extends AbstractDAO {
         }
     }
 
-    //todo: подумать как лучше сделать этот метод
-    public boolean addFilmToFavorites(String filmName){
-        try (PreparedStatement prsFavorites = connection.prepareStatement(ADD_TO_FAVORITES_QUERY);
-        PreparedStatement prsFilm = connection.prepareStatement(SELECT_FILM_BY_FILM_NAME_QUERY);
-        ){
-
+    public boolean addFilmToFavorites(int userId, int filmId){
+        try (PreparedStatement prs = connection.prepareStatement(ADD_TO_FAVORITES_QUERY)){
+            prs.setInt(1, userId);
+            prs.setInt(2, filmId);
+            prs.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error("Can't add film to favorites: " +filmName);
+            logger.error("Can't add film to favorites:");
             throw new IllegalRequestException("");
         }
     }

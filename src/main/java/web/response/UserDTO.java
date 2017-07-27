@@ -1,15 +1,8 @@
 package web.response;
 
-import dao.AbstractDAO;
-import dao.UserDAO;
 import entity.User;
-import exception.IllegalRequestException;
-import org.apache.log4j.Logger;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +12,8 @@ public class UserDTO implements Serializable{
     private int id;
     private String login;
 
-    private String f_name;
-    private String l_name;
+    private String fName;
+    private String lName;
 
     private String email;
     private int status;
@@ -29,11 +22,11 @@ public class UserDTO implements Serializable{
     public UserDTO(User user) {
         this.id = user.getId();
         this.login = user.getLogin();
-        this.f_name = user.getF_name();
-        this.l_name = user.getL_name();
+        this.fName = user.getfName();
+        this.lName = user.getlName();
         this.email = user.getEmail();
         this.status = user.getStatus();
-        this.create_date = user.getCreate_date();
+        this.create_date = user.getCreateDate();
     }
 
     public int getId() {
@@ -44,12 +37,12 @@ public class UserDTO implements Serializable{
         return login;
     }
 
-    public String getF_name() {
-        return f_name;
+    public String getfName() {
+        return fName;
     }
 
-    public String getL_name() {
-        return l_name;
+    public String getlName() {
+        return lName;
     }
 
     public String getEmail() {

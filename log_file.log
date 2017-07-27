@@ -8,3 +8,143 @@
 2017-07-04 17:04:33 INFO  JDBCFactory:28 - connection to database created
 2017-07-04 17:04:33 ERROR TestMain:27 - хочу печеньку
 2017-07-04 17:04:33 INFO  TestMain:28 - test
+2017-07-07 12:14:40 ERROR TestMain:27 - хочу печеньку
+2017-07-07 12:14:40 INFO  TestMain:28 - test
+2017-07-07 12:15:02 ERROR TestMain:27 - хочу печеньку
+2017-07-07 12:15:02 INFO  TestMain:28 - test
+2017-07-23 20:34:25 ERROR TestMain:34 - хочу печеньку
+2017-07-23 20:34:25 INFO  TestMain:35 - test
+2017-07-23 21:15:15 ERROR TestMain:34 - хочу печеньку
+2017-07-23 21:15:15 INFO  TestMain:35 - test
+2017-07-23 21:22:00 ERROR TestMain:34 - хочу печеньку
+2017-07-23 21:22:00 INFO  TestMain:35 - test
+2017-07-23 21:22:13 ERROR TestMain:34 - хочу печеньку
+2017-07-23 21:22:13 INFO  TestMain:35 - test
+2017-07-24 10:18:56 ERROR TestMain:36 - хочу печеньку
+2017-07-24 10:18:56 INFO  TestMain:37 - test
+2017-07-25 11:22:05 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:22:05 INFO  TestMain:38 - test
+2017-07-25 11:22:31 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:22:31 INFO  TestMain:38 - test
+2017-07-25 11:23:05 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:23:05 INFO  TestMain:38 - test
+2017-07-25 11:32:44 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:32:44 INFO  TestMain:38 - test
+2017-07-25 11:33:06 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:33:06 INFO  TestMain:38 - test
+2017-07-25 11:34:03 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:34:03 INFO  TestMain:38 - test
+2017-07-25 11:34:08 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:34:08 INFO  TestMain:38 - test
+2017-07-25 11:39:55 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:39:55 INFO  TestMain:38 - test
+2017-07-25 11:40:47 ERROR TestMain:37 - хочу печеньку
+2017-07-25 11:40:47 INFO  TestMain:38 - test
+2017-07-25 12:21:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:21:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:21:13 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:21:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:21:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:23:55 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:23:55 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:23:55 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:23:55 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:23:55 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:24:23 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:24:23 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:24:23 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:24:23 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:24:24 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:24:36 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:25:05 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:25:05 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:25:05 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:25:05 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:25:05 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:25 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:25 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:25 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:26:25 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:25 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:42 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:42 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:42 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:26:42 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:42 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:55 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:26:55 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:27:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:27:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:27:17 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 12:27:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 12:27:18 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 14:49:53 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 14:49:53 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 14:49:53 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 14:49:53 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 14:54:54 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 14:54:54 ERROR GenreDAO:81 - Can't delete genre: comedy
+2017-07-25 15:05:00 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:05:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:05:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:05:13 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:06:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:06:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:06:17 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:09:42 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:11:00 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:12:53 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:13:20 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:13:34 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:07 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:12 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:12 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:12 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:21 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:29 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:30 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:30 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:15:30 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:16:06 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:16:06 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:16:06 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:16:06 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 15:46:31 ERROR TestMain:37 - хочу печеньку
+2017-07-25 15:46:31 INFO  TestMain:38 - test
+2017-07-25 15:46:45 ERROR TestMain:37 - хочу печеньку
+2017-07-25 15:46:45 INFO  TestMain:38 - test
+2017-07-25 16:14:03 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 16:14:03 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 16:14:03 INFO  JDBCFactory:30 - connection to database created
+2017-07-25 16:14:03 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 11:13:28 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 11:13:28 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 11:13:28 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 11:13:29 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 16:09:59 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 16:09:59 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 16:09:59 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 16:09:59 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 17:14:45 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:14:45 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:14:45 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:14:45 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:15:16 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:15:16 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:15:16 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:15:30 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:15:48 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:16:22 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:16:35 ERROR JDBCFactory:33 - MySQL driver is not loaded
+2017-07-26 17:19:27 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 17:19:27 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 17:19:27 INFO  JDBCFactory:30 - connection to database created
+2017-07-26 17:19:27 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:26:18 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:26:18 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:26:18 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:26:18 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:55:34 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:55:34 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:55:34 INFO  JDBCFactory:30 - connection to database created
+2017-07-27 09:55:34 INFO  JDBCFactory:30 - connection to database created

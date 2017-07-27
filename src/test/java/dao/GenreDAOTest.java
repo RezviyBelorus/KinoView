@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by alexfomin on 04.07.17.
  */
@@ -21,7 +19,7 @@ public class GenreDAOTest {
         dao = new GenreDAO();
         genre = new Genre();
 
-        genre.setGenre_name("comedy");
+        genre.setGenreName("comedy");
     }
 
     @Test
@@ -33,21 +31,21 @@ public class GenreDAOTest {
 
     @Test
     public void findID() throws Exception {
-        Genre actual = dao.find(genre.getGenre_id());
+        Genre actual = dao.find(genre.getGenreId());
 
-        Assert.assertEquals(genre.getGenre_id(), actual.getGenre_id());
+        Assert.assertEquals(genre.getGenreId(), actual.getGenreId());
     }
 
     @Test
     public void findGenreName() throws Exception {
-        Genre actual = dao.find(genre.getGenre_name());
+        Genre actual = dao.find(genre.getGenreName());
 
-        Assert.assertEquals(genre.getGenre_name(), actual.getGenre_name());
+        Assert.assertEquals(genre.getGenreName(), actual.getGenreName());
     }
 
     @AfterClass
     public static void deleteGenreName(){
-        boolean deleteResult = dao.delete(genre.getGenre_name());
+        boolean deleteResult = dao.delete(genre.getGenreName());
 
         Assert.assertTrue(deleteResult);
     }

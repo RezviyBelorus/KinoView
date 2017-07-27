@@ -5,7 +5,6 @@ import exception.IllegalRequestException;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
 
 /**
  * Created by alexfomin on 30.06.17.
@@ -33,11 +32,11 @@ public class UserDAO extends AbstractDAO {
         try (PreparedStatement prs = connection.prepareStatement(SAVE_USER_QUERY)) {
             prs.setString(1, user.getLogin());
             prs.setString(2, user.getPassword());
-            prs.setString(3, user.getF_name());
-            prs.setString(4, user.getL_name());
+            prs.setString(3, user.getfName());
+            prs.setString(4, user.getlName());
             prs.setString(5, user.getEmail());
             prs.setInt(6, user.getStatus());
-            prs.setTimestamp(7, Timestamp.valueOf(user.getCreate_date()));
+            prs.setTimestamp(7, Timestamp.valueOf(user.getCreateDate()));
 
             prs.executeUpdate();
             return true;
@@ -81,11 +80,11 @@ public class UserDAO extends AbstractDAO {
                 user.setId(rs.getInt(1));
                 user.setLogin(rs.getString(2));
                 user.setPassword(rs.getString(3));
-                user.setF_name(rs.getString(4));
-                user.setL_name(rs.getString(5));
+                user.setfName(rs.getString(4));
+                user.setlName(rs.getString(5));
                 user.setEmail(rs.getString(6));
                 user.setStatus(rs.getInt(7));
-                user.setCreate_date(rs.getTimestamp(8).toLocalDateTime());
+                user.setCreateDate(rs.getTimestamp(8).toLocalDateTime());
                 return user;
             }
             return null;
@@ -107,11 +106,11 @@ public class UserDAO extends AbstractDAO {
                 user.setId(rs.getInt(1));
                 user.setLogin(rs.getString(2));
                 user.setPassword(rs.getString(3));
-                user.setF_name(rs.getString(4));
-                user.setL_name(rs.getString(5));
+                user.setfName(rs.getString(4));
+                user.setlName(rs.getString(5));
                 user.setEmail(rs.getString(6));
                 user.setStatus(rs.getInt(7));
-                user.setCreate_date(rs.getTimestamp(8).toLocalDateTime());
+                user.setCreateDate(rs.getTimestamp(8).toLocalDateTime());
                 return user;
             }
             return null;

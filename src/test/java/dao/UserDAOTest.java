@@ -1,7 +1,6 @@
 package dao;
 
 import entity.User;
-import exception.IllegalRequestException;
 import org.junit.*;
 
 import java.time.LocalDateTime;
@@ -22,11 +21,12 @@ public class UserDAOTest {
 
         user.setLogin("tester");
         user.setPassword("testPass");
-        user.setF_name("alex");
-        user.setL_name("kurik");
+        user.setfName("alex");
+        user.setlName("kurik");
         user.setEmail("123@cor.com");
         user.setStatus(1);
-        user.setCreate_date(LocalDateTime.now());
+        user.setCreateDate(LocalDateTime.now());
+
 
         saveResult = dao.save(user);
     }
@@ -41,9 +41,9 @@ public class UserDAOTest {
     @Test
     public void shouldReturnUserById() {
         //test will work if table users contains current ID
-        User actual = dao.find(7);
+        User actual = dao.find(55);
 
-        Assert.assertEquals(user.getId(), actual.getId());
+        Assert.assertEquals(55, actual.getId());
     }
 
     @Test
