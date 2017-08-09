@@ -2,6 +2,7 @@ package entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -12,18 +13,57 @@ public class Film {
     private int id;
     private String name;
     private int releaseYear;
-    private int qualityId;
-    private int translationId;
-    private String length;
+
+    private String quality;
+    private String translation;
+    private String duration;
     private float rating;
     private LocalDateTime uploadDate;
     private int status;
+    private String imgLink;
+    private String watchLink;
+    private String shortStory;
+    private int kinogoPage;
 
-    private ArrayList<String> countries = new ArrayList<>();
-    private ArrayList<String> genres = new ArrayList<>();
+    public int getKinogoPage() {
+        return kinogoPage;
+    }
 
-    private ArrayList<Integer> countrieId = new ArrayList<>();
-    private ArrayList<Integer> genreId = new ArrayList<>();
+    public void setKinogoPage(int kinogoPage) {
+        this.kinogoPage = kinogoPage;
+    }
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public String getWatchLink() {
+        return watchLink;
+    }
+
+    public void setWatchLink(String watchLink) {
+        this.watchLink = watchLink;
+    }
+
+
+
+    public String getShortStory() {
+        return shortStory;
+    }
+
+    public void setShortStory(String shortStory) {
+        this.shortStory = shortStory;
+    }
+
+    private List<String> countries = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
+
+    private List<Integer> countrieId = new ArrayList<>();
+    private List<Integer> genreId = new ArrayList<>();
 
     public LocalDateTime getUploadDate() {
         return uploadDate;
@@ -33,20 +73,20 @@ public class Film {
         this.uploadDate = uploadDate;
     }
 
-    public int getQuality_id() {
-        return qualityId;
+    public String getQuality() {
+        return quality;
     }
 
-    public void setQuality_id(int quality_id) {
-        this.qualityId = quality_id;
+    public void setQuality(String quality) {
+        this.quality = quality;
     }
 
-    public int getTranslationId() {
-        return translationId;
+    public String getTranslation() {
+        return translation;
     }
 
-    public void setTranslationId(int translationId) {
-        this.translationId = translationId;
+    public void setTranslation(String translation) {
+        this.translation = translation;
     }
 
     public int getId() {
@@ -73,12 +113,12 @@ public class Film {
         this.releaseYear = releaseYear;
     }
 
-    public String getLength() {
-        return length;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setLength(String length) {
-        this.length = length;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public float getRating() {
@@ -97,35 +137,35 @@ public class Film {
         this.status = status;
     }
 
-    public ArrayList<String> getCountries() {
+    public List<String> getCountries() {
         return countries;
     }
 
-    public void setCountries(ArrayList<String> countries) {
+    public void setCountries(List<String> countries) {
         this.countries = countries;
     }
 
-    public ArrayList<String> getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
-    public ArrayList<Integer> getCountrieId() {
+    public List<Integer> getCountrieId() {
         return countrieId;
     }
 
-    public void setCountrieId(ArrayList<Integer> countrieId) {
+    public void setCountrieId(List<Integer> countrieId) {
         this.countrieId = countrieId;
     }
 
-    public ArrayList<Integer> getGenreId() {
+    public List<Integer> getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(ArrayList<Integer> genreId) {
+    public void setGenreId(List<Integer> genreId) {
         this.genreId = genreId;
     }
 }

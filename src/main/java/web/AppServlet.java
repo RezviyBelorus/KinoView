@@ -21,6 +21,6 @@ public class AppServlet extends HttpServlet {
         ModelAndView modelAndView =  dispatcher.dispatch(requestURI, method, parameterMap);
         modelAndView.getParameters().forEach((s, o) -> req.setAttribute(s,o));
 
-        req.getRequestDispatcher("/WEB-INF/view" + modelAndView.getView().getName()+".jsp").forward(req,resp);
+        req.getRequestDispatcher("/WEB-INF/view/" + modelAndView.getView().getName()+".jsp").forward(req,resp);
     }
 }

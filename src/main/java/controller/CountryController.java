@@ -13,6 +13,10 @@ import web.http.RequestMapping;
 public class CountryController implements Controller{
     private CountryService countryService;
 
+    public CountryController() {
+        countryService = new CountryService();
+    }
+
     @RequestMapping(method = HttpMethod.POST, url = "countries/add")
     public ModelAndView add(String countryName) {
         ModelAndView view = new ModelAndView(View.COUNTRY);

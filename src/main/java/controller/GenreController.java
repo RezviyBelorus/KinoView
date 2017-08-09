@@ -13,6 +13,10 @@ import web.http.RequestMapping;
 public class GenreController implements Controller {
     private GenreService genreService;
 
+    public GenreController() {
+        genreService = new GenreService();
+    }
+
     @RequestMapping(method = HttpMethod.POST, url = "genres/add")
     public ModelAndView add(String genreName) {
         ModelAndView view = new ModelAndView(View.GENRE);

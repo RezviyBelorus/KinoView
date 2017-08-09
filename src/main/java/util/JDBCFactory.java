@@ -27,6 +27,7 @@ public class JDBCFactory {
             //todo: сделать
 //            connection.setAutoCommit(false);
 
+
             logger.info("connection to database created");
             return connection;
         } catch (ClassNotFoundException e) {

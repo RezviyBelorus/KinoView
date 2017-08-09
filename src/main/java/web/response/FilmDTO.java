@@ -4,6 +4,7 @@ import entity.Film;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexfomin on 05.07.17.
@@ -12,24 +13,24 @@ public class FilmDTO {
     private int id;
     private String name;
     private int releaseYear;
-    private int qualityId;
-    private int translationId;
-    private String length;
+    private String quality;
+    private String translation;
+    private String duration;
     private float rating;
     private LocalDateTime uploadDate;
     private int status;
 
-    private ArrayList<String> genres = new ArrayList<>();
-    private ArrayList<String> countries = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
+    private List<String> countries = new ArrayList<>();
 
 
     public FilmDTO(Film film) {
         this.id = film.getId();
         this.name = film.getName();
         this.releaseYear = film.getReleaseYear();
-        this.qualityId = film.getQuality_id();
-        this.translationId = film.getTranslationId();
-        this.length = film.getLength();
+        this.quality = film.getQuality();
+        this.translation = film.getTranslation();
+        this.duration = film.getDuration();
         this.rating = film.getRating();
         this.uploadDate = film.getUploadDate();
         this.status = film.getStatus();
@@ -45,21 +46,6 @@ public class FilmDTO {
         this.uploadDate = uploadDate;
     }
 
-    public int getQualityId() {
-        return qualityId;
-    }
-
-    public void setQualityId(int qualityId) {
-        this.qualityId = qualityId;
-    }
-
-    public int getTranslationId() {
-        return translationId;
-    }
-
-    public void setTranslationId(int translationId) {
-        this.translationId = translationId;
-    }
 
     public int getId() {
         return id;
@@ -85,13 +71,6 @@ public class FilmDTO {
         this.releaseYear = releaseYear;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
 
     public float getRating() {
         return rating;
@@ -109,19 +88,43 @@ public class FilmDTO {
         this.status = status;
     }
 
-    public ArrayList<String> getCountries() {
+    public List<String> getCountries() {
         return countries;
     }
 
-    public void setCountries(ArrayList<String> countries) {
+    public void setCountries(List<String> countries) {
         this.countries = countries;
     }
 
-    public ArrayList<String> getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
+
+    public String getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 }

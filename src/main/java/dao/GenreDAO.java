@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexfomin on 03.07.17.
@@ -41,16 +42,16 @@ public class GenreDAO extends AbstractDAO {
         }
     }
 
-    public boolean saveFilmToGenre(int filmId, int[] genres) {
+    public boolean saveFilmToGenre(int filmId, int[] genresId) {
         try (PreparedStatement prs = connection.prepareStatement(INSERT_FILMS_TO_GENRES_QUERY)) {
             int counter = 0;
 
-            for (int genreId : genres) {
+            for (int genreId : genresId) {
                 prs.setInt(1, filmId);
                 prs.setInt(2, genreId);
                 prs.addBatch();
                 counter++;
-                if (counter % 1000 == 0 || counter == genres.length) {
+                if (counter % 1000 == 0 || counter == genresId.length) {
                     prs.executeBatch();
                 }
             }
@@ -121,7 +122,7 @@ public class GenreDAO extends AbstractDAO {
         }
     }
 
-    public ArrayList<String> findAllByFilm(int filmId) {
+    public List<String> findAllByFilm(int filmId) {
         try (PreparedStatement prs = connection.prepareStatement(SELECT_ALL_GENRES_BY_FILM_QUERY)) {
             prs.setInt(1, filmId);
             ResultSet rs = prs.executeQuery();

@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexfomin on 06.07.17.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class Country {
     private int countryId;
     private String countryName;
-    private ArrayList<String> countries;
+    private List<String> countries;
 
     public int getCountryId() {
         return countryId;
@@ -26,11 +27,11 @@ public class Country {
         this.countryName = countryName;
     }
 
-    public ArrayList<String> getCountries() {
+    public List<String> getCountries() {
         return countries;
     }
 
-    public void setCountries(ArrayList<String> countries) {
+    public void setCountries(List<String> countries) {
         this.countries = countries;
     }
 }

@@ -8,7 +8,6 @@
 <p>
     Login into your account:
 </p>
-<!--todo: action-->
 <form action="http://localhost:8080/users/login" method="POST">
     <div class="tableConeiner">
         <div class="tableRow">

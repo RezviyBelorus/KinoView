@@ -85,6 +85,18 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.10.3</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+    </dependency>
 
   </dependencies>
 
@@ -96,13 +108,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
+          <debug>true</debug>
           <compilerArgument>-parameters</compilerArgument>
           <testCompilerArgument>-parameters</testCompilerArgument>
           <source>${java.version}</source>
           <target>${java.version}</target>
         </configuration>
       </plugin>
-
 
 
     </plugins>

@@ -1,5 +1,6 @@
 package controller;
 
+import dao.UserDAO;
 import entity.User;
 import service.UserService;
 import web.ModelAndView;
@@ -16,6 +17,10 @@ import web.response.UserDTO;
 public class UserController implements Controller {
 
     private UserService userService;
+
+    public UserController() {
+        userService = new UserService(new UserDAO());
+    }
 
     @RequestMapping(method = HttpMethod.POST, url = "users/signUp")
     public ModelAndView signUp(String login, String password, String fName, String lName, String email) {

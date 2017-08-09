@@ -21,22 +21,19 @@ public class FilmDAOTest {
 
         film.setName("test3");
         film.setReleaseYear(2017);
-        film.setQuality_id(1);
-        film.setTranslationId(1);
-        film.setLength("01:24:13");
+        film.setQuality("HDRip");
+        film.setTranslation("Дублированный");
+        film.setDuration("01:24:13");
         film.setRating(5);
         film.setUploadDate(LocalDateTime.now());
         film.setStatus(3);
+        film.setWatchLink("watchLink");
+        film.setImgLink("imgLink");
+        film.setShortStory("story");
 
         saveResult = dao.save(film);
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-//        shouldDeleteFilm tested film
-//        Boolean deleteResult = dao.shouldDeleteFilm("test3");
-//        Assert.assertTrue(deleteResult);
-    }
 
     @Test
     public void save() throws Exception {
@@ -56,4 +53,11 @@ public class FilmDAOTest {
         Assert.assertEquals(film.getName(), actual.getName());
     }
 
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+//        shouldDeleteFilm tested film
+        Boolean deleteResult = dao.delete("test3");
+        Assert.assertTrue(deleteResult);
+    }
 }

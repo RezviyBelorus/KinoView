@@ -31,11 +31,11 @@ public class FilmControllerTest {
         film.setName("testFilm");
 
         Mockito.when(filmService.save("testFilm", "1980", "1", "2",
-                "12:02:01", "4", "123", "321")).thenReturn(film);
+                "12:02:01", "4", "123", "321", "genres", "countries")).thenReturn(film);
 
         //when
         ModelAndView actual = filmController.upload("testFilm", "1980", "1", "2",
-                "12:02:01", "4", "123", "321");
+                "12:02:01", "4", "123", "321", "genres", "countries");
 
         //then
         assertEquals(View.FILM, actual.getView());

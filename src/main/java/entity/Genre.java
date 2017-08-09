@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alexfomin on 03.07.17.
@@ -8,9 +9,9 @@ import java.util.ArrayList;
 public class Genre {
     private int genreId;
     private String genreName;
-    private ArrayList<String> genres;
+    private List<String> genres;
 
-    public ArrayList<String> getGenres() {return genres;}
+    public List<String> getGenres() {return genres;}
 
     public void setGenres(String genre) {
         genres.add(genre);
