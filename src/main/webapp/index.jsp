@@ -5,6 +5,7 @@
     <title>kinoview - Login</title>
 </head>
 <body>
+<h1>Nice too see you again, ${sessionScope.userfName}</h1>
 <p>
     Login into your account:
 </p>
@@ -33,7 +34,21 @@
             <button type="submit">Sign up</button>
         </div>
     </div>
-
 </form>
+<p>sex + ${cookie.get("userfName")}</p>
+<%
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("userfName")) {
+%>
+<p><%=cookie.getValue()%>
+</p>
+<%
+            }
+        }
+    }
+%>
+
 </body>
 </html>

@@ -1,22 +1,25 @@
 package service;
 
 import entity.Film;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import util.SiteConnector;
+import util.LocalProperties;
 import util.Validator;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class KinogoPageParser {
-    //todo: слелать класс сервис который implements runable
-    //todo: отдельный класс для апдейта базы фильмов
+    private static Logger logger = Logger.getLogger(KinogoPageParser.class);
+    private static LocalProperties properties = new LocalProperties();
+    private static final String DEFAULT_FILM_STATUS = "film.defaultstatus";
 
     private static final String YEAR = "Год выпуска: ";
     private static final String COUNTRY = " Страна: ";
@@ -36,32 +39,21 @@ public class KinogoPageParser {
 
 //        Document document = siteConnector.getPage();
 
-        List<String> filmsNames = getFilmsName(document);
+        List<Film> films = new ArrayList<>();
 
-        List<String> filmsDescription = getFilmsDescription(document);
+        try {
+            List<String> filmsNames = getFilmsName(document);
+            List<String> filmsDescription = getFilmsDescription(document);
+            List<String> rating = getRating(document);
+            List<String> imgLink = getImgLink(document);
+            List<String> watchLink = getWatchLink(document);
 
-        List<String> rating = getRating(document);
-
-        List<String> imgLink = getImgLink(document);
-
-        List<String> watchLink = getWatchLink(document);
-
-        List<Film> films = fillListByFilms(filmsNames, filmsDescription, rating, imgLink, watchLink, kinogoPage);
-
+            films = fillListByFilms(filmsNames, filmsDescription, rating, imgLink, watchLink, kinogoPage);
+        } catch (RuntimeException e) {
+            logger.error("KinogoParser: can't parse the page: " + kinogoPage);
+        }
         return films;
     }
-
-//    public static boolean isPageFound(int pageNumber) {
-//        String siteUrl = "http://kinogo.club/page/";
-//
-//        Connection connect = Jsoup.connect(siteUrl + pageNumber);
-//        try {
-//            Document document = connect.get();
-//        } catch (IOException e) {
-//            return false;
-//        }
-//        return true;
-//    }
 
     private static List<String> getImgLink(Document document) {
         List<String> imgLink = new ArrayList<>();
@@ -101,7 +93,7 @@ public class KinogoPageParser {
         return filmsDescription;
     }
 
-    private static List<String> getFilmsName(Document document) {
+    private static List<String> getFilmsName(Document document) throws UnsupportedEncodingException {
         List<String> filmsNames = new ArrayList<>();
         Elements filmTitles = document.select("h2");
         for (Element title : filmTitles) {
@@ -125,6 +117,8 @@ public class KinogoPageParser {
             film.setDuration(getDuration(filmsDescription.get(i)));
             film.setShortStory(getShortStory(filmsDescription.get(i)));
             film.setRating(Validator.validateFloat(rating.get(i)));
+            film.setStatus(Validator.validateInt(properties.get(DEFAULT_FILM_STATUS)));
+            film.setUploadDate(LocalDateTime.now());
             film.setImgLink(imgLink.get(i));
             film.setWatchLink(watchLink.get(i));
             film.setKinogoPage(kinogoPage);

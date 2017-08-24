@@ -25,6 +25,12 @@ public class Film {
     private String shortStory;
     private int kinogoPage;
 
+    private List<String> countries = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
+
+    private List<Integer> countrieId = new ArrayList<>();
+    private List<Integer> genreId = new ArrayList<>();
+
     public int getKinogoPage() {
         return kinogoPage;
     }
@@ -49,8 +55,6 @@ public class Film {
         this.watchLink = watchLink;
     }
 
-
-
     public String getShortStory() {
         return shortStory;
     }
@@ -58,12 +62,6 @@ public class Film {
     public void setShortStory(String shortStory) {
         this.shortStory = shortStory;
     }
-
-    private List<String> countries = new ArrayList<>();
-    private List<String> genres = new ArrayList<>();
-
-    private List<Integer> countrieId = new ArrayList<>();
-    private List<Integer> genreId = new ArrayList<>();
 
     public LocalDateTime getUploadDate() {
         return uploadDate;
@@ -167,6 +165,17 @@ public class Film {
 
     public void setGenreId(List<Integer> genreId) {
         this.genreId = genreId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Film film = (Film) obj;
+        if (this.getName().equals(film.getName())
+                && this.getReleaseYear() == film.getReleaseYear()
+                && this.getShortStory().equals(film.getShortStory())) {
+            return true;
+        }
+        return false;
     }
 }
 

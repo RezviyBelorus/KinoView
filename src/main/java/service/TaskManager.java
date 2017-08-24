@@ -1,14 +1,15 @@
 package service;
 
-
 import entity.Film;
 import exception.IllegalRequestException;
 import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
+import util.LocalProperties;
 import util.SiteConnector;
+import util.Validator;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -16,33 +17,54 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class TaskManager implements Runnable {
-    private final int THREAD_SEPARATOR = 200;
-    Logger logger = Logger.getLogger(TaskManager.class);
-    FilmService filmService;
+    private static final String THREAD_SEPARATOR = "taskmanager.thread.separator";
+    private static String startUpdateHour = "taskmanager.startupdatehour";
+    private static String startUpdateMinute = "taskmanager.startupdateminute";
+
+    public static TaskManager instance;
+    private static LocalProperties properties = new LocalProperties();
+
+    private static final Logger logger = Logger.getLogger(TaskManager.class);
+    private FilmService filmService;
+
+    private boolean isAdminWantsToRunUpdate = false;
+    private boolean isJobRun = true;
+
+    private TaskManager(FilmService filmService) {
+        this.filmService = filmService;
+    }
 
     @Override
     public void run() {
-        List<Film> resultFilmsList = getFilms();
-        List<Film> filmsInDatabase = filmService.findLoadedFilms();
-        List<Film> films = filmsToLoad(resultFilmsList, filmsInDatabase);
+        while (isJobRun) {
+            LocalTime currentTime = LocalTime.now();
 
-        filmService.saveBatch(films);
-    }
+            LocalTime updateTime = LocalTime.parse(properties.get(startUpdateHour) + ":" + properties.get(startUpdateMinute));
+            boolean isTimeToUpdate = isTimeToUpdate(currentTime, updateTime);
+            if (isAdminWantsToRunUpdate || isTimeToUpdate) {
 
-    private List<Film> filmsToLoad(List<Film> resultFilmsList, List<Film> filmsInDatabase) {
+                List<Film> resultFilmsList = getFilms();
 
-        Iterator<Film> iterator = resultFilmsList.iterator();
+                List<Film> updatedFilms = filmService.updateBatchFilms(resultFilmsList);
 
-        while (iterator.hasNext()) {
-            Film potentialToLoadFilm = iterator.next();
-            for (Film databaseFilm : filmsInDatabase) {
-                if (potentialToLoadFilm.getName() == databaseFilm.getName()
-                        && potentialToLoadFilm.getKinogoPage() >= databaseFilm.getKinogoPage()) {
-                    iterator.remove();
-                }
+                List<Film> savedFilms = filmService.saveBatch(resultFilmsList);
+
+                isAdminWantsToRunUpdate = false;
+                isJobRun = false;
             }
         }
-        return resultFilmsList;
+    }
+
+    public static TaskManager getInstance(FilmService filmService) {
+        if (instance == null) {
+
+            return new TaskManager(filmService);
+        }
+        return instance;
+    }
+
+    private boolean isTimeToUpdate(LocalTime currentTime, LocalTime updateTime) {
+        return updateTime.getHour() == currentTime.getHour() && updateTime.getMinute() == currentTime.getMinute();
     }
 
     private List<Film> getFilms() {
@@ -52,9 +74,9 @@ public class TaskManager implements Runnable {
 
         int begin;
         int end = 0;
-        for (int i = 0; i < executor.getTaskCount(); i++) {
+        for (int i = 0; i < threadsQuantity; i++) {
             begin = end + 1;
-            end = end + THREAD_SEPARATOR;
+            end = end + Validator.validateInt(properties.get(THREAD_SEPARATOR));
             Future<List<Film>> submit = executor.submit(new Task(begin, end + 1));
             resultFilmsList.add(submit);
         }
@@ -96,8 +118,45 @@ public class TaskManager implements Runnable {
     }
 
     private int getThreadsQuantity(int lastPage) {
-        int threadsNumber = lastPage % THREAD_SEPARATOR;
+        int threadsNumber = lastPage / Validator.validateInt(properties.get(THREAD_SEPARATOR));
+        return threadsNumber == 0 ? 1 : threadsNumber;
+    }
 
-        return threadsNumber == lastPage ? 1 : lastPage / THREAD_SEPARATOR;
+    public boolean isAdminWantsToRunUpdate() {
+        return isAdminWantsToRunUpdate;
+    }
+
+    public void setAdminWantsToRunUpdate(boolean adminWantsToRunUpdate) {
+        isAdminWantsToRunUpdate = adminWantsToRunUpdate;
+    }
+
+    public String getTHREAD_SEPARATOR() {
+        return THREAD_SEPARATOR;
+    }
+
+    public static String getStartUpdateHour() {
+        return startUpdateHour;
+    }
+
+    public static void setStartUpdateHour(String startUpdateHour) {
+        TaskManager.startUpdateHour = startUpdateHour;
+    }
+
+    public static String getStartUpdateMinute() {
+        return startUpdateMinute;
+    }
+
+    public static void setStartUpdateMinute(String startUpdateMinute) {
+        TaskManager.startUpdateMinute = startUpdateMinute;
+    }
+
+    public boolean isJobRun() {
+        return isJobRun;
+    }
+
+    public void setJobRun(boolean jobRun) {
+        isJobRun = jobRun;
     }
 }
+
+

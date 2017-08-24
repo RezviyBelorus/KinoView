@@ -32,6 +32,8 @@ public class CountryDAO extends AbstractDAO {
     private String SELECT_ALL_COUNTRIES_BY_FILM_QUERY = "SELECT c.country_name FROM countries AS c " +
             "INNER JOIN films_to_countries AS f ON c.country_id = f.country_id WHERE f.film_id = ?";
 
+    private String SELECT_ALL_COUNTRIES_QUERY = "SELECT country_id, country_name FROM countries";
+
     public boolean save(Country country) {
         try (PreparedStatement prs = connection.prepareStatement(SAVE_COUNTRY_QUERY)) {
             prs.setString(1, country.getCountryName());
@@ -43,7 +45,7 @@ public class CountryDAO extends AbstractDAO {
         }
     }
 
-    public boolean saveFilmToCountries(int filmId, int[] countries) {
+    public boolean saveFilmToCountries(int filmId, List<Integer> countries) {
         try (PreparedStatement prs = connection.prepareStatement(INSERT_FILM_TO_COUNTRIES_QUERY)) {
             int counter = 0;
             for (int countryId : countries) {
@@ -51,7 +53,7 @@ public class CountryDAO extends AbstractDAO {
                 prs.setInt(2, countryId);
                 prs.addBatch();
                 counter++;
-                if (counter % 1000 == 0 || counter == countries.length) {
+                if (counter % 1000 == 0 || counter == countries.size()) {
                     prs.executeBatch();
                 }
             }
@@ -100,21 +102,6 @@ public class CountryDAO extends AbstractDAO {
         }
     }
 
-    public List<String> findAllByFilm(int filmId) {
-        try (PreparedStatement prs = connection.prepareStatement(SELECT_ALL_COUNTRIES_BY_FILM_QUERY)) {
-            prs.setInt(1, filmId);
-            ResultSet rs = prs.executeQuery();
-            ArrayList<String> countries = new ArrayList<>();
-            while (rs.next()) {
-                countries.add(rs.getString(1));
-            }
-            return countries;
-        } catch (SQLException e) {
-            logger.error("Can't get countries by film: " + filmId);
-            throw new IllegalRequestException("");
-        }
-    }
-
     public Country find(String countryName) {
         try (PreparedStatement prs = connection.prepareStatement(SELECT_COUNTRY_BY_NAME_QUERY)) {
             prs.setString(1, countryName);
@@ -127,6 +114,38 @@ public class CountryDAO extends AbstractDAO {
             return country;
         } catch (SQLException e) {
             logger.error("Can't find country: " + countryName);
+            throw new IllegalRequestException("");
+        }
+    }
+
+    public List<Country> findAllCountries() {
+        try (PreparedStatement prs = connection.prepareStatement(SELECT_ALL_COUNTRIES_QUERY)){
+            List<Country> countries = new ArrayList<>();
+            ResultSet rs = prs.executeQuery();
+            while (rs.next()) {
+                Country country = new Country();
+                country.setCountryId(rs.getInt(1));
+                country.setCountryName(rs.getString(2));
+                countries.add(country);
+            }
+            return countries;
+        } catch (SQLException e) {
+            logger.error("Can't get all countries");
+            throw new IllegalRequestException("");
+        }
+    }
+
+    public List<String> findAllByFilm(int filmId) {
+        try (PreparedStatement prs = connection.prepareStatement(SELECT_ALL_COUNTRIES_BY_FILM_QUERY)) {
+            prs.setInt(1, filmId);
+            ResultSet rs = prs.executeQuery();
+            ArrayList<String> countries = new ArrayList<>();
+            while (rs.next()) {
+                countries.add(rs.getString(1));
+            }
+            return countries;
+        } catch (SQLException e) {
+            logger.error("Can't get countries by film: " + filmId);
             throw new IllegalRequestException("");
         }
     }

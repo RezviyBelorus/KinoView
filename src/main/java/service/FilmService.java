@@ -8,6 +8,8 @@ import entity.Country;
 import entity.Film;
 import entity.Genre;
 import exception.IllegalRequestException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import web.response.FilmDTO;
 
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ import static util.Validator.validateInt;
  */
 
 public class FilmService {
+    private static final Logger logger = Logger.getLogger(FilmService.class);
     private FilmDAO filmDAO;
     private UserDAO userDAO;
     private GenreDAO genreDAO;
@@ -70,26 +73,71 @@ public class FilmService {
 
     public List<Film> saveBatch(List<Film> films) {
         List<Film> filmsToSave = new ArrayList<>();
-        for (Film film : films) {
-            Film filmDao = filmDAO.find(film.getName());
-            if (filmDao == null) {
-                filmsToSave.add(film);
-            }
+        filmsToSave.addAll(films);
+        List<Film> filmsInDB = filmDAO.findLoadedFilms();
+        filmsToSave.removeAll(filmsInDB);
+        for (Film film : filmsToSave) {
+            saveGenres(film.getName(), film.getGenres());
+            saveCountries(film.getName(), film.getCountries());
         }
-
         boolean isSaved = filmDAO.saveBatch(filmsToSave);
-
         if (isSaved) {
             return filmsToSave;
         }
-        return null;
+        logger.error("Can't save batch of films");
+        throw new IllegalRequestException("");
     }
+
+    public FilmDTO updateFilm(Film film) {
+        Film dao = filmDAO.find(film.getName());
+        if (film.getName() == dao.getName() && film.getReleaseYear() == dao.getReleaseYear() && film.getKinogoPage() < dao.getKinogoPage()) {
+            filmDAO.updateFilm(film);
+        }
+        Film updatedFilm = filmDAO.find(film.getName());
+        if(updatedFilm.getName() !=null) {
+            updatedFilm.setCountries(findCountries(updatedFilm.getId()));
+            updatedFilm.setGenres(findGenres(updatedFilm.getId()));
+            return new FilmDTO(updatedFilm);
+        }
+        logger.error("Can't update film");
+        throw new IllegalRequestException("");
+    }
+
+    public List<Film> updateBatchFilms(List<Film> films) {
+        List<Film> filmsToUpdate = new ArrayList<>();
+        List<Film> filmsInDB = filmDAO.findLoadedFilms();
+
+        if (filmsInDB.size() == 0) {
+            return filmsToUpdate;
+        }
+        for (Film potentialToUpdateFilm : films) {
+            for (Film filmInDB : filmsInDB) {
+                if (potentialToUpdateFilm.equals(filmInDB)
+                        && potentialToUpdateFilm.getKinogoPage() < filmInDB.getKinogoPage()) {
+                    filmsToUpdate.add(potentialToUpdateFilm);
+                }
+            }
+        }
+        filmDAO.updateBatchFilms(filmsToUpdate);
+        List<Film> updatedFilms = new ArrayList<>();
+        filmsToUpdate.forEach(film -> {
+            Film updatedFilm = filmDAO.find(film.getName());
+            if(updatedFilm.getName() != null) {
+                updatedFilm.setCountries(findCountries(updatedFilm.getId()));
+                updatedFilm.setGenres(findGenres(updatedFilm.getId()));
+                updatedFilms.add(updatedFilm);
+            }
+        });
+        return updatedFilms;
+    }
+
 
     public FilmDTO delete(String filmName) {
         boolean isDeleted = filmDAO.setStatus(filmName, FilmStatus.DELETED.getValue());
         if (isDeleted) {
             return new FilmDTO(filmDAO.find(filmName));
         }
+        logger.error("Can't delete film");
         throw new IllegalRequestException("");
     }
 
@@ -106,8 +154,13 @@ public class FilmService {
     }
 
     public List<Film> findLoadedFilms() {
-
-        return filmDAO.findLoadedFilms();
+        List<Film> loadedFilms = new ArrayList<>();
+        loadedFilms.addAll(filmDAO.findLoadedFilms());
+        for (Film loadedFilm : loadedFilms) {
+            loadedFilm.setGenres(findGenres(loadedFilm.getId()));
+            loadedFilm.setCountries(findCountries(loadedFilm.getId()));
+        }
+        return loadedFilms;
     }
 
     public List<String> findGenres(int filmId) {
@@ -134,39 +187,44 @@ public class FilmService {
         return false;
     }
 
-    private boolean saveGenres(String filmName, List<String> genres) {
-        Film film = filmDAO.find(filmName);
-        int filmId = film.getId();
-
-        int[] genresId = new int[genres.size()];
-
-        for (int i = 0; i < genres.size(); i++) {
-            Genre genre = genreDAO.find(genres.get(i));
-            if (genre != null) {
-                genresId[i] = genre.getGenreId();
-            }
-        }
-
-        boolean isSaved = genreDAO.saveFilmToGenre(filmId, genresId);
-        if (isSaved) {
+    public boolean clearTableFilms() {
+        boolean isKeyChecksDisable = filmDAO.setForeignKeyChecks(0);
+        if (isKeyChecksDisable) {
+            filmDAO.clearDatabase();
+            filmDAO.setForeignKeyChecks(1);
             return true;
         }
         return false;
     }
 
-    private boolean saveCountries(String filmName, List<String> countries) {
-        int filmId = filmDAO.find(filmName).getId();
-        int[] countriesId = new int[countries.size()];
-        for (int i = 0; i < countries.size(); i++) {
-            Country country = countryDAO.find(countries.get(i));
-            if (country != null) {
-                countriesId[i] = country.getCountryId();
+    private boolean saveGenres(String filmName, List<String> filmGenres) {
+        Film film = filmDAO.find(filmName);
+        int filmId = film.getId();
+
+        List<Integer> genresId = new ArrayList<>();
+        List<Genre> allGenres = genreDAO.findAllGenres();
+        for (String filmGenre : filmGenres) {
+            for (Genre genreInDB : allGenres) {
+                if (filmGenre.equals(genreInDB.getGenreName())) {
+                    genresId.add(genreInDB.getGenreId());
+                }
             }
         }
-        boolean isSaved = countryDAO.saveFilmToCountries(filmId, countriesId);
-        if (isSaved) {
-            return true;
+
+        return genreDAO.saveFilmToGenre(filmId, genresId);
+    }
+
+    private boolean saveCountries(String filmName, List<String> countries) {
+        int filmId = filmDAO.find(filmName).getId();
+        List<Integer> countriesId = new ArrayList<>();
+        List<Country> allCountries = countryDAO.findAllCountries();
+        for (String country : countries) {
+            for (Country countryInDB : allCountries) {
+                if (country.equals(countryInDB.getCountryName())) {
+                    countriesId.add(countryInDB.getCountryId());
+                }
+            }
         }
-        return false;
+        return countryDAO.saveFilmToCountries(filmId, countriesId);
     }
 }

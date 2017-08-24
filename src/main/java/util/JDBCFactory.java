@@ -13,10 +13,10 @@ public class JDBCFactory {
     private static Logger logger = Logger.getLogger(JDBCFactory.class);
     private static LocalProperties properties = new LocalProperties();
 
-    private static String SQL_DRIVER = "db.mysql.driver";
-    private static  String DB_URL = "db.url";
-    private static  String DB_LOGIN = "db.login";
-    private static  String DB_PASS = "db.pass";
+    private static final String SQL_DRIVER = "db.mysql.driver";
+    private static final String DB_URL = "db.url";
+    private static final String DB_LOGIN = "db.login";
+    private static final String DB_PASS = "db.pass";
 
     public static Connection createConnection() {
         try {

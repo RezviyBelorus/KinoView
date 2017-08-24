@@ -49,7 +49,8 @@ public class FilmServiceTest {
 
         //when
         FilmDTO actual = filmService.save("testFilm", "2017", "HD", "RU",
-                "01:34:13", "3.5", "1,2,3", "1,2,3", "Comedy, Drama", "countries");
+                "01:34:13", "3.5", "1,2,3", "1,2,3", "shortStory",
+                456,"Comedy, Drama", "countries");
 
         //then
         Assert.assertEquals(film.getName(), actual.getName());

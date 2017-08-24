@@ -8,11 +8,10 @@ import service.UserService;
 import web.HttpStatus;
 import web.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.lang.reflect.Parameter;
 
 /**
@@ -40,26 +39,30 @@ public class Dispatcher {
         return dispatcher;
     }
 
-    public ModelAndView dispatch(String url, String method, Map<String, String[]> parametersMap) {
+    public ModelAndView dispatch(String url, String method, Map<String, String[]> parametersMap,
+                                 HttpServletRequest req, HttpServletResponse resp) {
         HttpMethod httpMethod = HttpMethod.valueOf(method);
         Target target = getTargetForInvoke(url, httpMethod);
-        if(target!=null) {
-            fillTargetByParams(target, parametersMap);
+        if (target != null) {
+            fillTargetByParams(target, parametersMap, req, resp);
             Object result = invoker.invoke(target);
-            return (ModelAndView)result;
+            return (ModelAndView) result;
         }
         return new ModelAndView(HttpStatus.PAGE_NOT_FOUND);
     }
 
-    private void fillTargetByParams(Target target, Map<String, String[]> parametersMap) {
-       Parameter[] parameters = target.method.getParameters();
+    private void fillTargetByParams(Target target, Map<String, String[]> stringParametersMap,
+                                    HttpServletRequest req, HttpServletResponse resp) {
+        HashMap<String, Object> parametersMap = new HashMap<>();
+        //v[0] - here only the one first element
+        stringParametersMap.forEach((k, v) -> parametersMap.put(k, v[0]));
+        parametersMap.put("request", req);
+        parametersMap.put("response", resp);
 
-        for (int i = 0; i < parameters.length; i++) {
-            String[] strings = parametersMap.get(parameters[i].getName());
-            if(strings != null){
-                target.parameters[i] = strings[0];
-            }
-        }
+        Arrays.stream(target.method.getParameters())
+                .map(e -> parametersMap.get(e.getName()))
+                .filter(Objects::nonNull)
+                .forEach(e -> target.parameters.add(e));
     }
 
     private Target getTargetForInvoke(String requestedUrl, HttpMethod requestedHttpMethod) {
@@ -71,7 +74,6 @@ public class Dispatcher {
                     RequestMapping current = method.getAnnotation(RequestMapping.class);
                     if (requestedHttpMethod == current.method() && StringUtils.equals(requestedUrl, current.url())) {
                         target = new Target(controller, method);
-                        target.parameters = new String[method.getParameterCount()];
                         break;
                     }
                 }
@@ -87,7 +89,7 @@ public class Dispatcher {
         private Object invoke(Target target) {
             try {
                 target.method.setAccessible(true);
-                return target.method.invoke(target.controller, target.parameters);
+                return target.method.invoke(target.controller, target.parameters.toArray());
             } catch (Exception e) {
                 throw new IllegalRequestException(e.getMessage());
             }
@@ -97,7 +99,7 @@ public class Dispatcher {
     private static class Target {
         private Controller controller;
         private Method method;
-        private String[] parameters;
+        private List<Object> parameters = new ArrayList<>();
 
         public Target(Controller controller, Method method) {
             this.controller = controller;

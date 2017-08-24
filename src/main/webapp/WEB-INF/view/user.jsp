@@ -16,5 +16,19 @@
 <p>
     Hello, ${requestScope.user.fName}
 </p>
+<%
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("userfName")) {
+%>
+<p><%=cookie.getValue()%>
+</p>
+<%
+            }
+        }
+    }
+%>
+
 </body>
 </html>

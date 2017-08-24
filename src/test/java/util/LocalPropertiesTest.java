@@ -13,6 +13,6 @@ public class LocalPropertiesTest {
         LocalProperties properties = new LocalProperties();
         String actual = properties.get("db.url");
 
-        Assert.assertEquals("jdbc:mysql://localhost:3306/kino_view", actual);
+        Assert.assertEquals("jdbc:mysql://localhost:3306/kino_view?useUnicode=true&characterEncoding=utf-8", actual);
     }
 }

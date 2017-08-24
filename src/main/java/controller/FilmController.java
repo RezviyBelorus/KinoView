@@ -23,12 +23,13 @@ public class FilmController implements Controller {
 
     public FilmController() {
         filmService = new FilmService();
+        userService = new UserService(new UserDAO());
     }
 
-    @RequestMapping(method = HttpMethod.POST, url = "films/upload")
-    public ModelAndView upload(String filmName, String releaseYear, String quality, String translation,
-                               String duration, String rating, String imgLink, String watchLink,
-                               String shortStory, int kinogoPage, String genres, String countries) {
+    @RequestMapping(method = HttpMethod.POST, url = "films/save")
+    public ModelAndView save(String filmName, String releaseYear, String quality, String translation,
+                             String duration, String rating, String imgLink, String watchLink,
+                             String shortStory, int kinogoPage, String genres, String countries) {
         ModelAndView view = new ModelAndView(View.FILM);
         FilmDTO film = filmService.save(filmName, releaseYear, quality, translation, duration, rating,
                 imgLink, watchLink, shortStory, kinogoPage, genres, countries);
@@ -36,7 +37,8 @@ public class FilmController implements Controller {
         return view;
     }
 
-    public ModelAndView uploadBatch(List<Film> films) {
+    @RequestMapping(method = HttpMethod.POST, url = "films/saveBatch")
+    public ModelAndView saveBatch(List<Film> films) {
         ModelAndView view = new ModelAndView(View.MAIN);
         List<Film> savedFilms = filmService.saveBatch(films);
         view.addParam("films", savedFilms);
@@ -76,5 +78,11 @@ public class FilmController implements Controller {
         view.addParam("film", filmDTO);
 
         return view;
+    }
+
+    @RequestMapping(method = HttpMethod.DELETE, url = "films/clearTableFilms")
+    public ModelAndView clearTableFilms(){
+        filmService.clearTableFilms();
+        return new ModelAndView(View.FILM);
     }
 }

@@ -29,6 +29,8 @@ public class GenreDAO extends AbstractDAO {
     private String SELECT_ALL_GENRES_BY_FILM_QUERY = "SELECT n.genre_name FROM genre_type AS n " +
             "INNER JOIN films_to_genres AS f ON n.genre_id = f.genre_id WHERE f.film_id=?";
 
+    private String SELECT_ALL_GENRES_QUERY = "SELECT genre_id, genre_name FROM genre_type";
+
     private String INSERT_FILMS_TO_GENRES_QUERY = "INSERT INTO films_to_genres VALUES (?, ?)";
 
     public boolean save(Genre genre) {
@@ -42,7 +44,7 @@ public class GenreDAO extends AbstractDAO {
         }
     }
 
-    public boolean saveFilmToGenre(int filmId, int[] genresId) {
+    public boolean saveFilmToGenre(int filmId, List<Integer> genresId) {
         try (PreparedStatement prs = connection.prepareStatement(INSERT_FILMS_TO_GENRES_QUERY)) {
             int counter = 0;
 
@@ -51,7 +53,7 @@ public class GenreDAO extends AbstractDAO {
                 prs.setInt(2, genreId);
                 prs.addBatch();
                 counter++;
-                if (counter % 1000 == 0 || counter == genresId.length) {
+                if (counter % 1000 == 0 || counter == genresId.size()) {
                     prs.executeBatch();
                 }
             }
@@ -111,13 +113,32 @@ public class GenreDAO extends AbstractDAO {
 
             ResultSet rs = prs.executeQuery();
 
+            System.out.println("find Genre");
             while (rs.next()) {
+                System.out.println("find Genre in while cycle");
                 genre.setGenreId(rs.getInt(1));
                 genre.setGenreName(rs.getString(2));
             }
             return genre;
         } catch (SQLException e) {
             logger.error("Can't find genre: " + genreName);
+            throw new IllegalRequestException("");
+        }
+    }
+
+    public List<Genre> findAllGenres(){
+        try (PreparedStatement prs = connection.prepareStatement(SELECT_ALL_GENRES_QUERY)){
+            ResultSet rs = prs.executeQuery();
+            List<Genre> allGenres = new ArrayList<>();
+            while(rs.next()) {
+                Genre genre = new Genre();
+                genre.setGenreId(rs.getInt(1));
+                genre.setGenreName(rs.getString(2));
+                allGenres.add(genre);
+            }
+            return allGenres;
+        } catch (SQLException e) {
+            logger.error("Can't get all genres");
             throw new IllegalRequestException("");
         }
     }

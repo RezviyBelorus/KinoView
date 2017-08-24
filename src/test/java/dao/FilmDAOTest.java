@@ -3,6 +3,7 @@ package dao;
 import entity.Film;
 import org.junit.*;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
 /**
@@ -19,7 +20,7 @@ public class FilmDAOTest {
         dao = new FilmDAO();
         film = new Film();
 
-        film.setName("test3");
+        film.setName("filmName");
         film.setReleaseYear(2017);
         film.setQuality("HDRip");
         film.setTranslation("Дублированный");

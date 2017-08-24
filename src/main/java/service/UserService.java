@@ -36,7 +36,6 @@ public class UserService {
         User user = userDAO.find(email);
         User user1 = userDAO.find(login);
 
-
         if (user == null && user1 == null) {
             User dto = new User();
             dto.setLogin(login);
